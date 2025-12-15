@@ -36,7 +36,7 @@ const initNavAnimation = () => {
         const x = linkRect.left - navRect.left;
         
         // *** NUOVE VARIABILI PER LA RIDUZIONE ***
-        const PILL_REDUCTION = 16; // Riduci la larghezza di 16px totali (8px per lato)
+        const PILL_REDUCTION = 10; // Riduci la larghezza di 16px totali (8px per lato)
         const newWidth = linkRect.width - PILL_REDUCTION - 2;
         const newX = x + (PILL_REDUCTION / 2); // Sposta la pillola a destra per centrarla
         
@@ -249,13 +249,12 @@ const initScrollAnimations = () => {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    // Rimuovi la classe hidden e aggiungi l'animazione appropriata
                     entry.target.classList.remove('hidden');
                     const animation = entry.target.dataset.animation;
                     if (animation) {
                         entry.target.classList.add(animation);
                     }
-                    // Una volta animato, non serve più osservare
+                    
                     observer.unobserve(entry.target);
                 }
             });

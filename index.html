@@ -38,52 +38,86 @@
     <!-- Portfolio Section -->
     <section id="portfolio" class="portfolio">
         <h2 data-animation="animate-fade-up">Il Mio Portfolio</h2>
+
+        <div class="portfolio-filters" data-animation="animate-fade-up">
+        <ul class="filter-links">
+            <li><button class="filter-btn active" data-filter="all">Tutte</button></li>
+            <li><button class="filter-btn" data-filter="auto">Auto</button></li>
+            <li><button class="filter-btn" data-filter="moto">Moto</button></li>
+            <li><button class="filter-btn" data-filter="vintage">Vintage</button></li>
+            <li>
+                <button class="filter-btn filter-logo-btn" data-filter="redline">
+                    <img src="img/redlinebianco.png" alt="RedLine" class="filter-logo">
+                </button>
+            </li>
+        </ul>
+    </div>
+
+
+    <div id="lightbox" class="lightbox">
+        <span class="close-lightbox">&times;</span>
+        <button class="prev-btn">&#10094;</button>
+        <img class="lightbox-content" id="lightbox-img">
+        <button class="next-btn">&#10095;</button>
+    </div>
         <div class="gallery">
 
-            <div class="gallery-item" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/foto1.webp" alt="Fotografia 1" loading="lazy"></div>
+            <div class="gallery-item auto vintage" data-animation="animate-fade-up delay-1">
+                <div class="img-wrapper"><img src="img/124Spider.webp" alt="Fotografia 1" loading="lazy"></div>
             </div>
-            <div class="gallery-item" data-animation="animate-fade-up delay-2">
-                <div class="img-wrapper"><img src="img/foto2.webp" alt="Fotografia 2" loading="lazy"></div>
+            <div class="gallery-item vintage" data-animation="animate-fade-up delay-1">
+                <div class="img-wrapper"><img src="img/690N4.webp" alt="Fotografia 1" loading="lazy"></div>
             </div>
-            <div class="gallery-item" data-animation="animate-fade-up delay-3">
-                <div class="img-wrapper"><img src="img/foto3.webp" alt="Fotografia 3" loading="lazy"></div>
+            <div class="gallery-item auto" data-animation="animate-fade-up delay-3">
+                <div class="img-wrapper"><img src="img/E36.webp" alt="Fotografia 3" loading="lazy"></div>
             </div>
-            <div class="gallery-item" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/foto4.webp" alt="Fotografia 4" loading="lazy"></div>
+            <div class="gallery-item auto vintage" data-animation="animate-fade-up delay-1">
+                <div class="img-wrapper"><img src="img/Bugatti.webp" alt="Fotografia 6" loading="lazy"></div>
             </div>
-            <div class="gallery-item" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/foto6.webp" alt="Fotografia 6" loading="lazy"></div>
+             <div class="gallery-item moto vintage" data-animation="animate-fade-up delay-1">
+                <div class="img-wrapper"><img src="img/Yamaha.webp" alt="Fotografia 9" loading="lazy"></div>
             </div>
-             <div class="gallery-item" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/foto9.webp" alt="Fotografia 9" loading="lazy"></div>
+            <div class="gallery-item moto" data-animation="animate-fade-up delay-1">
+                <div class="img-wrapper"><img src="img/S1000r.webp" alt="Fotografia 10" loading="lazy"></div>
             </div>
-            <div class="gallery-item" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/foto10.webp" alt="Fotografia 10" loading="lazy"></div>
+            <div class="gallery-item moto" data-animation="animate-fade-up delay-1">
+                <div class="img-wrapper"><img src="img/MT125.webp" alt="Fotografia 11" loading="lazy"></div>
             </div>
-            <div class="gallery-item" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/foto11.webp" alt="Fotografia 11" loading="lazy"></div>
+            <div class="gallery-item auto vintage" data-animation="animate-fade-up delay-1">
+                <div class="img-wrapper"><img src="img/Mini.webp" alt="Fotografia 14" loading="lazy"></div>
             </div>
-            <div class="gallery-item" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/foto14.webp" alt="Fotografia 14" loading="lazy"></div>
+            <div class="gallery-item auto vintage" data-animation="animate-fade-up delay-1">
+                <div class="img-wrapper"><img src="img/CapriGT.webp" alt="Fotografia 16" loading="lazy"></div>
             </div>
-            <div class="gallery-item" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/foto16.webp" alt="Fotografia 16" loading="lazy"></div>
+            <div class="gallery-item moto" data-animation="animate-fade-up delay-1">
+                <div class="img-wrapper"><img src="img/R125.webp" alt="Fotografia 17" loading="lazy"></div>
             </div>
-            <div class="gallery-item" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/foto17.webp" alt="Fotografia 17" loading="lazy"></div>
+            <div class="gallery-item redline featured" data-animation="animate-fade-up delay-1">
+                <div class="img-wrapper"><img src="img/Testarossa.webp" alt="Fotografia 18" loading="lazy"></div>
             </div>
-            <div class="gallery-item" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/foto18.webp" alt="Fotografia 18" loading="lazy"></div>
+            <div class="gallery-item auto redline" data-animation="animate-fade-up delay-1">
+                <div class="img-wrapper"><img src="img/LancerXCerchio.webp" alt="Fotografia 19" loading="lazy"></div>
             </div>
-            <div class="gallery-item" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/foto19.webp" alt="Fotografia 19" loading="lazy"></div>
+            <div class="gallery-item auto redline" data-animation="animate-fade-up delay-1">
+                <div class="img-wrapper"><img src="img/EclipseCofano.webp" alt="Fotografia 20" loading="lazy"></div>
             </div>
-            <div class="gallery-item" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/foto20.webp" alt="Fotografia 20" loading="lazy"></div>
+            <div class="gallery-item auto redline" data-animation="animate-fade-up delay-1">
+                <div class="img-wrapper"><img src="img/GolfGTI.webp" alt="Fotografia 21" loading="lazy"></div>
             </div>
-            <div class="gallery-item" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/foto21.webp" alt="Fotografia 21" loading="lazy"></div>
+            <div class="gallery-item auto redline" data-animation="animate-fade-up delay-1">
+                <div class="img-wrapper"><img src="img/E46Red.webp" alt="Fotografia 22" loading="lazy"></div>
+            </div>
+            <div class="gallery-item auto redline" data-animation="animate-fade-up delay-1">
+                <div class="img-wrapper"><img src="img/EclRed.webp" alt="Fotografia 23" loading="lazy"></div>
+            </div>
+            <div class="gallery-item auto" data-animation="animate-fade-up delay-1">
+                <div class="img-wrapper"><img src="img/E36V.webp" alt="Fotografia 24" loading="lazy"></div>
+            </div>
+             <div class="gallery-item auto" data-animation="animate-fade-up delay-1">
+                <div class="img-wrapper"><img src="img/M4.webp" alt="Fotografia 25" loading="lazy"></div>
+            </div>
+             <div class="gallery-item auto" data-animation="animate-fade-up delay-1">
+                <div class="img-wrapper"><img src="img/mx5.webp" alt="Fotografia 26" loading="lazy"></div>
             </div>
 
         </div>

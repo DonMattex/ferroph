@@ -810,3 +810,98 @@ img {
         list-style: none;
     }
 }
+
+/* Filtri Portfolio */
+.portfolio-filters {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.filter-links {
+    display: flex;
+    list-style: none;
+    background: rgba(30, 30, 30, 0.5);
+    padding: 0.25rem;
+    border-radius: 30px;
+    gap: 0.25rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--nav-border);
+}
+
+.filter-btn {
+    background: transparent;
+    border: none;
+    color: var(--nav-text);
+    padding: 0.5rem 1.3rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 500;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+}
+
+.filter-btn.active {
+    background: rgba(255, 255, 255, 0.12);
+    opacity: 1;
+}
+
+/* Lightbox Fullscreen */
+.lightbox {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-content {
+    max-width: 90%;
+    max-height: 85vh;
+    border-radius: 8px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    pointer-events: auto; /* Sovrascrive il blocco globale delle immagini */
+}
+
+.close-lightbox, .prev-btn, .next-btn {
+    position: absolute;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    background: rgba(255,255,255,0.1);
+    border: none;
+    padding: 1rem;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.close-lightbox { top: 20px; right: 30px; }
+.prev-btn { left: 20px; top: 50%; transform: translateY(-50%); }
+.next-btn { right: 20px; top: 50%; transform: translateY(-50%); }
+
+.prev-btn:hover, .next-btn:hover { background: rgba(255,255,255,0.2); }
+
+/* Stile specifico per il bottone con logo */
+.filter-logo-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem 1rem; /* Leggermente meno padding verticale */
+}
+
+.filter-logo {
+    height: 20px; /* Regola l'altezza in base al tuo logo */
+    width: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+/* Effetto ingrandimento quando il filtro è attivo o hover */
+.filter-btn.active .filter-logo,
+.filter-btn:hover .filter-logo {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+}

@@ -1,21 +1,5 @@
-// Smooth scrolling for navigation links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-        });
-    });
-});
-
-// Contact form handling is implemented inside initContactInteractions()
-// to provide unified toast feedback and copy-to-clipboard interactions.
-
-
-
-// Theme toggle functionality
 const initTheme = () => {
-    // Force dark theme only
+    //Tema scuro
     document.documentElement.setAttribute('data-theme', 'dark');
 };
 
@@ -27,7 +11,6 @@ const initNavAnimation = () => {
     const links = [...navLinks.getElementsByTagName('a')];
     
     // Funzione per calcolare la posizione e larghezza esatte della pillola
-    // Funzione per calcolare la posizione e larghezza esatte della pillola
     const updatePill = (link) => {
         const linkRect = link.getBoundingClientRect();
         const navRect = navLinks.getBoundingClientRect();
@@ -35,15 +18,15 @@ const initNavAnimation = () => {
         // Calcola la posizione rispetto al contenitore nav
         const x = linkRect.left - navRect.left;
         
-        // *** NUOVE VARIABILI PER LA RIDUZIONE ***
-        const PILL_REDUCTION = 10; // Riduci la larghezza di 16px totali (8px per lato)
+        const PILL_REDUCTION = 10; //Grandezza pillola navbar
         const newWidth = linkRect.width - PILL_REDUCTION - 2;
-        const newX = x + (PILL_REDUCTION / 2); // Sposta la pillola a destra per centrarla
+        const newX = x + (PILL_REDUCTION / 2); 
         
         // Imposta posizione e larghezza ridotte
         navLinks.style.setProperty('--pill-x', `${newX}px`);
         navLinks.style.setProperty('--pill-width', `${newWidth}px`);
     };
+
     // Aggiungi gli eventi per ogni link
     links.forEach(link => {
         link.addEventListener('mouseenter', () => updatePill(link));
@@ -100,51 +83,7 @@ const initImageProtection = () => {
             window.open(logoURL, '_blank');
         }
     });
-
-    // Intercept dragstart so dragged data is the logo
-    document.addEventListener('dragstart', (e) => {
-        // MODIFICATO: Ora cerchiamo il contenitore .img-wrapper
-        const wrapper = e.target.closest('.gallery-item .img-wrapper');
-        if (!wrapper) return;
-        
-        e.preventDefault(); // Blocca il trascinamento nativo
-        
-        try {
-            // Provide the logo URL as the dragged resource
-            e.dataTransfer.setData('text/uri-list', logoURL);
-            e.dataTransfer.setData('text/plain', logoURL);
-        } catch (err) {
-            // ignore
-        }
-
-        // Use the logo as drag image if available
-        const dragImg = new Image();
-        dragImg.src = logoURL;
-        dragImg.onload = () => {
-            try { e.dataTransfer.setDragImage(dragImg, dragImg.width / 2, dragImg.height / 2); } catch (_) {}
-        };
-    });
 };
-
-    // Intercept dragstart so dragged data is the logo
-    document.addEventListener('dragstart', (e) => {
-        const img = e.target.closest('.gallery-item .img-wrapper img');
-        if (!img) return;
-        try {
-            // Provide the logo URL as the dragged resource
-            e.dataTransfer.setData('text/uri-list', logoURL);
-            e.dataTransfer.setData('text/plain', logoURL);
-        } catch (err) {
-            // ignore
-        }
-
-        // Use the logo as drag image if available
-        const dragImg = new Image();
-        dragImg.src = logoURL;
-        dragImg.onload = () => {
-            try { e.dataTransfer.setDragImage(dragImg, dragImg.width / 2, dragImg.height / 2); } catch (_) {}
-        };
-    });
 
 // Initialize image protection
 initImageProtection();
@@ -274,5 +213,68 @@ const initScrollAnimations = () => {
     animateOnScroll();
 };
 
-// Inizializza le animazioni allo scroll
-//initScrollAnimations();
+// 1. Logica di Filtraggio
+const initPortfolioFilters = () => {
+    const filters = document.querySelectorAll('.filter-btn');
+    const items = document.querySelectorAll('.gallery-item');
+
+    filters.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Update active state
+            filters.forEach(f => f.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filterValue = btn.getAttribute('data-filter');
+
+            items.forEach(item => {
+                if (filterValue === 'all' || item.classList.contains(filterValue)) {
+                    item.style.display = 'block';
+                    setTimeout(() => item.style.opacity = '1', 10);
+                } else {
+                    item.style.opacity = '0';
+                    setTimeout(() => item.style.display = 'none', 300);
+                }
+            });
+        });
+    });
+};
+
+// 2. Logica Lightbox (Fullscreen)
+const initLightbox = () => {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const closeBtn = document.querySelector('.close-lightbox');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    const galleryImages = Array.from(document.querySelectorAll('.gallery-item img'));
+    
+    let currentIndex = 0;
+
+    const showImage = (index) => {
+        if (index < 0) index = galleryImages.length - 1;
+        if (index >= galleryImages.length) index = 0;
+        currentIndex = index;
+        lightboxImg.src = galleryImages[currentIndex].src;
+    };
+
+    galleryImages.forEach((img, index) => {
+        // Rimuoviamo il pointer-events: none per permettere il click
+        img.parentElement.style.cursor = 'zoom-in';
+        img.style.pointerEvents = 'auto'; 
+        
+        img.addEventListener('click', () => {
+            lightbox.style.display = 'flex';
+            showImage(index);
+        });
+    });
+
+    closeBtn.addEventListener('click', () => lightbox.style.display = 'none');
+    prevBtn.addEventListener('click', (e) => { e.stopPropagation(); showImage(currentIndex - 1); });
+    nextBtn.addEventListener('click', (e) => { e.stopPropagation(); showImage(currentIndex + 1); });
+    
+    lightbox.addEventListener('click', () => lightbox.style.display = 'none');
+};
+
+// Inizializza tutto in fondo al file
+initPortfolioFilters();
+initLightbox();

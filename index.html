@@ -1,219 +1,527 @@
 <!DOCTYPE html>
-<html lang="it" data-theme="dark">
+<html lang="it">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6K53L25FCR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-6K53L25FCR');
+  </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FerroPh - Car Photography</title>
-    <!-- Modern font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="icon" href="img/ph.png">
-    <link rel="stylesheet" href="style.css?v=3.3">
+ 
+  <!-- SEO -->
+  <title>Ferroo.ph — Fotografo Automotive Taranto | Car & Moto Photography Puglia</title>
+  <meta name="description" content="Fotografo automotive a Taranto e Puglia. Sessioni foto per auto e moto dal risultato professionale. Pacchetti da €15. Prenota su ferroph.art">
+  <meta name="keywords" content="fotografo automotive taranto, car photography taranto, foto auto taranto, fotografo moto puglia, fotografo automotive puglia, shooting auto taranto">
+  <meta name="author" content="Ferroo.ph — Matteo">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.ferroph.art/">
+ 
+  <!-- Open Graph (anteprima su WhatsApp, Facebook ecc.) -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.ferroph.art/">
+  <meta property="og:title" content="Ferroo.ph — Fotografo Automotive Taranto">
+  <meta property="og:description" content="Fotografia automotive professionale a Taranto e Puglia. Trasformo la tua auto in un'opera d'arte. Pacchetti da €15.">
+  <meta property="og:image" content="https://www.ferroph.art/img/124S.webp">
+  <meta property="og:locale" content="it_IT">
+  <meta property="og:site_name" content="Ferroo.ph">
+ 
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Ferroo.ph — Fotografo Automotive Taranto">
+  <meta name="twitter:description" content="Fotografia automotive professionale a Taranto e Puglia. Pacchetti da €15.">
+  <meta name="twitter:image" content="https://www.ferroph.art/img/124S.webp">
+ 
+  <!-- Schema.org (dati strutturati per Google) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Ferroo.ph — Car & Moto Photography",
+    "description": "Fotografo automotive professionale a Taranto e Puglia. Sessioni foto per auto e moto.",
+    "url": "https://www.ferroph.art",
+    "telephone": "+393920401948",
+    "email": "info@ferroph.art",
+    "image": "https://www.ferroph.art/img/logoPNG.png",
+    "priceRange": "€€",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Taranto",
+      "addressRegion": "Puglia",
+      "addressCountry": "IT"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 40.4644,
+      "longitude": 17.2470
+    },
+    "sameAs": [
+      "https://instagram.com/ferroo.ph"
+    ],
+    "areaServed": {
+      "@type": "GeoCircle",
+      "geoMidpoint": {
+        "@type": "GeoCoordinates",
+        "latitude": 40.4644,
+        "longitude": 17.2470
+      },
+      "geoRadius": "100000"
+    }
+  }
+  </script>
+ 
+  <link rel="icon" type="image/png" href="img/ph.png">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="eventi.css">
 </head>
+
+<!-- OVERLAY EVENTI -->
+<div class="ev-overlay" id="eventiOverlay">
+  <div class="ev-overlay-header">
+    <div class="ev-header-left">
+      <button class="ev-back-btn" id="eventiBackBtn">Indietro</button>
+      <span class="ev-overlay-title" id="eventiTitle">Galleries</span>
+    </div>
+    <button class="ev-close-btn" id="eventiCloseBtn">&#215;</button>
+  </div>
+  <div id="eventiGrid" class="ev-grid"></div>
+  <div id="eventoDetail">
+    <div class="ev-masonry" id="eventoMasonry"></div>
+  </div>
+</div>
+
+<!-- LIGHTBOX EVENTI -->
+<div class="ev-lightbox" id="eventiLb">
+  <button class="ev-lb-close" id="eventiLbClose">&#215;</button>
+  <button class="ev-lb-nav ev-lb-prev" id="eventiLbPrev">&#8249;</button>
+  <img class="ev-lb-img" id="eventiLbImg" src="" alt="">
+  <button class="ev-lb-nav ev-lb-next" id="eventiLbNext">&#8250;</button>
+</div>
+
+<script src="eventi.js"></script>
+
 <body>
-    <!-- Header Section -->
-    <header>
-        <nav class="navbar">
-            <div class="logo">
-                <img src="img/logoPNG.png" loading="lazy" alt="Ferro.Ph Logo">
-            </div>
-            <div class="nav-center">
-                <ul class="nav-links">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#portfolio">Portfolio</a></li>
-                    <li><a href="#contact">Contatti</a></li>
-                </ul>
-            </div>
-        </nav>
-    </header>
-
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1 data-animation="animate-fade-up">Più che metallo, più che velocità.<br><span class="accent-text" data-animation="animate-fade-up delay-2">È un'ossessione.</span></h1>
+ 
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#home" class="nav-logo"><img src="img/logoPNG.png" alt="ferroo.ph"></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#" onclick="openEventiOverlay(); return false;">Galleries</a></li>
+    <li><a href="#about">Chi sono</a></li>
+    <li><a href="#prezzi">Prezzi</a></li>
+    <li><a href="#contact">Contatti</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Prenota ora</button>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+ 
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg-img"></div>
+  <div class="hero-blue-line"></div>
+  <div class="hero-tag">Car &amp; Moto Photography · Taranto (TA)</div>
+  <h1>Più che metallo.<br><em>Più che velocità.</em><br>È un'ossessione.</h1>
+  <p class="hero-sub">Fotografia automotive che trasforma la tua macchina in un'opera d'arte. Ogni scatto racconta la storia di chi la guida.</p>
+  <div class="hero-actions">
+    <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Prenota una sessione</button>
+    <button class="btn-ghost" onclick="document.getElementById('portfolio').scrollIntoView({behavior:'smooth'})">Vedi il portfolio</button>
+  </div>
+  <div class="hero-stat">
+    <div class="hero-stat-num">250+</div>
+    <div class="hero-stat-label">Veicoli fotografati</div>
+  </div>
+</section>
+ 
+<!-- CHI SONO -->
+<section style="background: var(--bg2);" id="about">
+  <div class="section-eyebrow">Chi sono</div>
+  <div class="about-grid">
+    <div>
+      <h2 class="about-title">L'occhio dietro l'obiettivo</h2>
+      <!-- MODIFICA: scrivi qui la tua bio -->
+      <p class="about-body">Sedici anni, una macchina fotografica e un'ossessione per i motori. Mi chiamo Matteo e trasformo veicoli in soggetti fotografici — cercando tensione, carattere e quella luce che fa la differenza. Taranto e dintorni, ma mi sposto per i veicoli giusti.</p>
+      <div class="about-stats">
+        <div class="stat-box">
+          <!-- MODIFICA: aggiorna il numero -->
+          <div class="stat-box-num blue">250+</div>
+          <div class="stat-box-label">Veicoli fotografati</div>
         </div>
-    </section>
-
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="portfolio">
-        <h2 data-animation="animate-fade-up">Il Mio Portfolio</h2>
-
-        <div class="portfolio-filters" data-animation="animate-fade-up">
-        <ul class="filter-links">
-            <li><button class="filter-btn active" data-filter="all">Tutte</button></li>
-            <li><button class="filter-btn" data-filter="auto">Auto</button></li>
-            <li><button class="filter-btn" data-filter="moto">Moto</button></li>
-            <li><button class="filter-btn" data-filter="vintage">Vintage</button></li>
-            <li>
-                <button class="filter-btn filter-logo-btn" data-filter="redline">
-                    <img src="img/redlinebianco.png" alt="RedLine" class="filter-logo">
-                </button>
-            </li>
-        </ul>
+        <div class="stat-box">
+          <div class="stat-box-num">2025</div>
+          <div class="stat-box-label">Anno di inizio</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-num blue">PH</div>
+          <div class="stat-box-label">Car · Moto · Vintage</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-num">TARANTO</div>
+          <div class="stat-box-label">Puglia · Sud Italia</div>
+        </div>
+      </div>
     </div>
-
-
-    <div id="lightbox" class="lightbox">
-        <span class="close-lightbox">&times;</span>
-        <button class="prev-btn">&#10094;</button>
-        <img class="lightbox-content" id="lightbox-img">
-        <button class="next-btn">&#10095;</button>
+    <div class="about-photo">
+      <img src="img/io.png" alt="Fotografo ferroo.ph">
+      <!-- MODIFICA: togli il commento e metti il percorso della tua foto -->
+      <!-- <img src="img/foto-di-me.jpg" alt="Fotografo ferroo.ph"> -->
+      <div class="about-photo-placeholder">FERRO</div>
     </div>
-        <div class="gallery">
+  </div>
+</section>
+ 
+<!-- PORTFOLIO -->
+<section style="background: var(--bg);" id="portfolio">
+  <div class="section-eyebrow">Portfolio</div>
+  <div class="portfolio-header">
+    <h2 class="section-title">I miei lavori</h2>
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">Tutte</button>
+      <button class="filter-btn" data-filter="auto">Auto</button>
+      <button class="filter-btn" data-filter="moto">Moto</button>
+      <button class="filter-btn" data-filter="vintage">Vintage</button>
+    </div>
+  </div>
+ 
+  <div class="masonry" id="portfolioGrid">
+    <div class="masonry-item" data-cat="moto vintage" data-label="Yamaha RD 500 LC"><img src="https://res.cloudinary.com/djbb8ffbu/image/upload/v1774033231/YamahaRD500LC_ymo1cr.webp" alt="Yamaha RD 500 LC" loading="lazy"><div class="masonry-item-overlay"></div><div class="masonry-item-dot"></div><span class="masonry-item-label">Yamaha RD 500 LC</span></div>
+    <div class="masonry-item" data-cat="auto vintage" data-label="Ferrari 328 GTS"><img src="https://res.cloudinary.com/djbb8ffbu/image/upload/v1774033213/Ferrari328GTS_ybrzly.webp" alt="Ferrari 328 GTS" loading="lazy"><div class="masonry-item-overlay"></div><div class="masonry-item-dot"></div><span class="masonry-item-label">Ferrari 328 GTS</span></div>
+    <div class="masonry-item" data-cat="auto vintage" data-label="Alfa Romeo Giulietta 116 GdF"><img src="https://res.cloudinary.com/djbb8ffbu/image/upload/v1774033216/Giulietta116_x69os7.webp" alt="Alfa Romeo Giulietta 116 GdF" loading="lazy"><div class="masonry-item-overlay"></div><div class="masonry-item-dot"></div><span class="masonry-item-label">Alfa Romeo Giulietta 116 GdF</span></div>
+    <div class="masonry-item" data-cat="auto vintage" data-label="Bugatti Type 35"><img src="https://res.cloudinary.com/djbb8ffbu/image/upload/v1774033229/Type35_idhxyx.webp" alt="Bugatti Type 35" loading="lazy"><div class="masonry-item-overlay"></div><div class="masonry-item-dot"></div><span class="masonry-item-label">Bugatti Type 35 (Replica)</span></div>
+    <div class="masonry-item" data-cat="auto vintage" data-label="Fiat 124 Spider"><img src="https://res.cloudinary.com/djbb8ffbu/image/upload/v1774033212/124S_ly1r4o.webp" alt="Fiat 124 Spider" loading="lazy"><div class="masonry-item-overlay"></div><div class="masonry-item-dot"></div><span class="masonry-item-label">Fiat 124 Spider</span></div>
+    <div class="masonry-item" data-cat="auto vintage" data-label="Chevrolet Corvette C3 Stingray"><img src="https://res.cloudinary.com/djbb8ffbu/image/upload/v1774033224/Stingray_vv3a1i.webp" alt="Chevrolet Corvette C3 Stingray" loading="lazy"><div class="masonry-item-overlay"></div><div class="masonry-item-dot"></div><span class="masonry-item-label">Chevrolet Corvette C3 Stingray</span></div>
+    <div class="masonry-item" data-cat="auto" data-label="Toyota Supra A90"><img src="https://res.cloudinary.com/djbb8ffbu/image/upload/v1774033224/SupraA90_entmby.webp" alt="Toyota Supra A90" loading="lazy"><div class="masonry-item-overlay"></div><div class="masonry-item-dot"></div><span class="masonry-item-label">Toyota Supra A90</span></div>
+    <div class="masonry-item" data-cat="auto" data-label="Mitsubishi Eclipse GS"><img src="https://res.cloudinary.com/djbb8ffbu/image/upload/v1774033213/EclipseCurva1_mg2umj.webp" alt="Mitsubishi Eclipse GS" loading="lazy"><div class="masonry-item-overlay"></div><div class="masonry-item-dot"></div><span class="masonry-item-label">Mitsubishi Eclipse GS</span></div>
+    <div class="masonry-item" data-cat="auto" data-label="Mitsubishi Eclipse GS"><img src="https://res.cloudinary.com/djbb8ffbu/image/upload/v1774033213/EclipseCurva2_cb7hyn.webp" alt="Mitsubishi Eclipse GS" loading="lazy"><div class="masonry-item-overlay"></div><div class="masonry-item-dot"></div><span class="masonry-item-label">Mitsubishi Eclipse GS</span></div>
+    <div class="masonry-item" data-cat="auto" data-label="Mitsubishi Eclipse GS"><img src="https://res.cloudinary.com/djbb8ffbu/image/upload/v1774033212/Eclipse_xab2ge.webp" alt="Mitsubishi Eclipse GS" loading="lazy"><div class="masonry-item-overlay"></div><div class="masonry-item-dot"></div><span class="masonry-item-label">Mitsubishi Eclipse GS</span></div>
+    <div class="masonry-item" data-cat="auto" data-label="Mitsubishi Eclipse GS"><img src="https://res.cloudinary.com/djbb8ffbu/image/upload/v1774033213/EclipseCofano_hc9ihi.webp" alt="Mitsubishi Eclipse GS" loading="lazy"><div class="masonry-item-overlay"></div><div class="masonry-item-dot"></div><span class="masonry-item-label">Mitsubishi Eclipse GS</span></div>
+    <div class="masonry-item" data-cat="auto vintage" data-label="Ferrari Testarossa"><img src="https://res.cloudinary.com/djbb8ffbu/image/upload/v1774033225/Testarossa_p7z8d1.webp" alt="Ferrari Testarossa" loading="lazy"><div class="masonry-item-overlay"></div><div class="masonry-item-dot"></div><span class="masonry-item-label">Ferrari Testarossa</span></div>
+    <div class="masonry-item" data-cat="auto vintage" data-label="Ferrari Testarossa"><img src="https://res.cloudinary.com/djbb8ffbu/image/upload/v1774033225/Testarossa1_f2rbyq.webp" alt="Ferrari Testarossa" loading="lazy"><div class="masonry-item-overlay"></div><div class="masonry-item-dot"></div><span class="masonry-item-label">Ferrari Testarossa</span></div>
+    <div class="masonry-item" data-cat="auto" data-label="BMW E36 Drift Modified"><img src="https://res.cloudinary.com/djbb8ffbu/image/upload/v1774033211/E36Drift_umil2v.webp" alt="BMW E36 Drift Modified" loading="lazy"><div class="masonry-item-overlay"></div><div class="masonry-item-dot"></div><span class="masonry-item-label">BMW E36 Drift Modified</span></div>
+    <div class="masonry-item" data-cat="auto" data-label="BMW E92 Coupè"><img src="https://res.cloudinary.com/djbb8ffbu/image/upload/v1774033212/E92_zbttev.webp" alt="BMW E92 Coupè" loading="lazy"><div class="masonry-item-overlay"></div><div class="masonry-item-dot"></div><span class="masonry-item-label">BMW E92 Coupè</span></div>
+    <div class="masonry-item" data-cat="auto" data-label="Mercedes-AMG C63 S"><img src="https://res.cloudinary.com/djbb8ffbu/image/upload/v1774895908/sito1_cbhprn.jpg" alt="Mercedes-AMG C63 S" loading="lazy"><div class="masonry-item-overlay"></div><div class="masonry-item-dot"></div><span class="masonry-item-label">Mercedes-AMG C63 S</span></div>
+    <div class="masonry-item" data-cat="auto" data-label="BMW Serie 4 Coupé"><img src="https://res.cloudinary.com/djbb8ffbu/image/upload/v1774895908/sito2_oquhln.jpg" alt="BMW Serie 4 Coupé" loading="lazy"><div class="masonry-item-overlay"></div><div class="masonry-item-dot"></div><span class="masonry-item-label">BMW Serie 4 Coupé</span></div>
+    <div class="masonry-item" data-cat="auto" data-label="Volkswagen Golf MK3"><img src="https://res.cloudinary.com/djbb8ffbu/image/upload/v1774895908/sito3_yzfip3.jpg" alt="Volkswagen Golf MK3" loading="lazy"><div class="masonry-item-overlay"></div><div class="masonry-item-dot"></div><span class="masonry-item-label">Volkswagen Golf MK3</span></div>
+    <div class="masonry-item" data-cat="auto" data-label="SEAT Leon FR"><img src="https://res.cloudinary.com/djbb8ffbu/image/upload/v1774895908/sito4_te0nhx.jpg" alt="SEAT Leon FR" loading="lazy"><div class="masonry-item-overlay"></div><div class="masonry-item-dot"></div><span class="masonry-item-label">SEAT Leon FR</span></div>
+    <div class="masonry-item" data-cat="auto" data-label="Mazda MX-5"><img src="https://res.cloudinary.com/djbb8ffbu/image/upload/v1774895908/sito5_r6l3xc.jpg" alt="Mazda MX-5" loading="lazy"><div class="masonry-item-overlay"></div><div class="masonry-item-dot"></div><span class="masonry-item-label">Mazda MX-5</span></div>
+    
 
-            <div class="gallery-item auto vintage" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/124Spider.webp" alt="Fotografia 1" loading="lazy"></div>
-            </div>
-            <div class="gallery-item vintage" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/690N4.webp" alt="Fotografia 1" loading="lazy"></div>
-            </div>
-            <div class="gallery-item auto" data-animation="animate-fade-up delay-3">
-                <div class="img-wrapper"><img src="img/E36.webp" alt="Fotografia 3" loading="lazy"></div>
-            </div>
-            <div class="gallery-item auto vintage" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/Bugatti.webp" alt="Fotografia 6" loading="lazy"></div>
-            </div>
-             <div class="gallery-item moto vintage" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/Yamaha.webp" alt="Fotografia 9" loading="lazy"></div>
-            </div>
-            <div class="gallery-item moto" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/S1000r.webp" alt="Fotografia 10" loading="lazy"></div>
-            </div>
-            <div class="gallery-item moto" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/MT125.webp" alt="Fotografia 11" loading="lazy"></div>
-            </div>
-            <div class="gallery-item auto vintage" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/Mini.webp" alt="Fotografia 14" loading="lazy"></div>
-            </div>
-            <div class="gallery-item auto vintage" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/CapriGT.webp" alt="Fotografia 16" loading="lazy"></div>
-            </div>
-            <div class="gallery-item moto" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/R125.webp" alt="Fotografia 17" loading="lazy"></div>
-            </div>
-            <div class="gallery-item redline featured" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/Testarossa.webp" alt="Fotografia 18" loading="lazy"></div>
-            </div>
-            <div class="gallery-item auto redline" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/LancerXCerchio.webp" alt="Fotografia 19" loading="lazy"></div>
-            </div>
-            <div class="gallery-item auto redline" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/EclipseCofano.webp" alt="Fotografia 20" loading="lazy"></div>
-            </div>
-            <div class="gallery-item auto redline" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/GolfGTI.webp" alt="Fotografia 21" loading="lazy"></div>
-            </div>
-            <div class="gallery-item auto redline" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/E46Red.webp" alt="Fotografia 22" loading="lazy"></div>
-            </div>
-            <div class="gallery-item auto redline" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/EclRed.webp" alt="Fotografia 23" loading="lazy"></div>
-            </div>
-            <div class="gallery-item auto" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/E36V.webp" alt="Fotografia 24" loading="lazy"></div>
-            </div>
-             <div class="gallery-item auto" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/M4.webp" alt="Fotografia 25" loading="lazy"></div>
-            </div>
-             <div class="gallery-item auto" data-animation="animate-fade-up delay-1">
-                <div class="img-wrapper"><img src="img/mx5.webp" alt="Fotografia 26" loading="lazy"></div>
-            </div>
-
+    
+    
+  </div>
+  <p class="portfolio-note">* Risoluzione massima e file senza watermark forniti solo su contatto.</p>
+ 
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lbClose">&#215;</button>
+    <button class="lightbox-nav lightbox-prev" id="lbPrev">&#8249;</button>
+    <img class="lightbox-img" id="lbImg" src="" alt="">
+    <button class="lightbox-nav lightbox-next" id="lbNext">&#8250;</button>
+    <div class="lightbox-label" id="lbLabel"></div>
+  </div>
+</section>
+ 
+<!-- RECENSIONI -->
+<section style="background: var(--bg2);" id="recensioni">
+  <div class="section-eyebrow">Recensioni</div>
+  <h2 class="section-title">Cosa dicono i clienti</h2>
+  <div class="reviews-grid">
+    <!-- MODIFICA: sostituisci con le recensioni reali -->
+    <div class="review-card">
+      <div class="review-stars"><div class="review-star"></div><div class="review-star"></div><div class="review-star"></div><div class="review-star"></div><div class="review-star"></div></div>
+      <p class="review-text">"Giovane ma con un occhio già maturo. Le foto della mia macchina sono diventate un quadro per il mio garage. Consigliatissimo."</p>
+      <div class="review-author">Marco R.</div>
+      <div class="review-car">Chevrolet Corvette C3 Stingray · Puglia</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars"><div class="review-star"></div><div class="review-star"></div><div class="review-star"></div><div class="review-star"></div><div class="review-star"></div></div>
+      <p class="review-text">"Ero scettico all'inizio, poi ho visto il risultato."</p>
+      <div class="review-author">Giuseppe T.</div>
+      <div class="review-car">BMW E92 Coupè · Taranto</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars"><div class="review-star"></div><div class="review-star"></div><div class="review-star"></div><div class="review-star"></div><div class="review-star"></div></div>
+      <p class="review-text">"Puntuale, preciso e con idee che io non avrei mai avuto. Location perfetta, luce perfetta."</p>
+      <div class="review-author">Antonio L.</div>
+      <div class="review-car">BMW E46 · Taranto</div>
+    </div>
+  </div>
+ 
+  <!-- FORM RECENSIONE -->
+  <div class="review-form-wrap">
+    <div class="review-form-title">Hai lavorato con me? Lascia la tua recensione</div>
+    <div class="review-form-sub">Ci vogliono 30 secondi e mi aiuta tantissimo.</div>
+    <form action="https://formspree.io/f/xvzwvlzb" method="POST">
+      <div class="form-row-2">
+        <div class="form-group">
+          <label class="form-label">Nome</label>
+          <input class="form-input" type="text" name="nome" placeholder="Mario Rossi" required>
         </div>
-    </section>
-
-    <section id="info" class="info">
-        <p data-animation="animate-fade-up">*Risoluzione massima e file senza logo sono forniti solo su contatto.</p>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact" aria-label="Sezione contattami">
-        <h2 data-animation="animate-fade-up">Contattami</h2>
-        <h3 data-animation="animate-fade-up">Pronto a trasformare la tua auto in un capolavoro fotografico?</h3>
-        <div class="contact-content" data-animation="animate-fade-up delay-1">
-            <!-- Form Card -->
-            <div class="contact-form-card liquid-glass" aria-hidden="false">
-                <form id="contact-form" action="https://formsubmit.co/info@ferroph.art" method="POST" novalidate>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <input type="text" id="name" name="name" placeholder=" " required autocomplete="given-name" />
-                            <label class="floating-label" for="name">Nome</label>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" id="cognome" name="cognome" placeholder=" " required autocomplete="family-name" />
-                            <label class="floating-label" for="cognome">Cognome</label>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <input type="email" id="email" name="email" placeholder=" " required autocomplete="email" />
-                        <label class="floating-label" for="email">Email</label>
-                    </div>
-
-                    <div class="form-group">
-                        <textarea id="message" name="message" placeholder=" " required></textarea>
-                        <label class="floating-label" for="message">Messaggio</label>
-                    </div>
-
-                    <div style="display:flex;gap:0.75rem;align-items:center;">
-                        <button type="submit" class="btn-primary" aria-label="Invia messaggio">Invia Messaggio</button>
-                        <button type="reset" class="btn-primary">Reset</button> 
-                    </div>
-                </form>
-            </div>
-
-            <!-- Contact Info Card -->
-            <aside class="contact-card liquid-glass" aria-label="Informazioni di contatto">
-                <div class="contact-info">
-                    <p class="meta">Preferisci contattarmi direttamente? Ecco i miei contatti:</p>
-
-                    <div class="contact-method">
-                        <div class="icon" aria-hidden="true">
-                            <!-- Email simple gray icon -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-at-sign-icon lucide-at-sign"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"/></svg>
-                        </div>
-                        <div class="meta">
-                            <div class="title">Email</div>
-                            <div class="value">info@ferroph.art</div>
-                        </div>
-                    </div>
-
-                    <div class="contact-method">
-                        <div class="icon" aria-hidden="true">
-                            <!-- Phone simple gray icon -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone-icon lucide-phone"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></svg>
-                        </div>
-                        <div class="meta">
-                            <div class="title">Whatsapp</div>
-                            <div class="value">+39  392 040 1948</div>
-                        </div>
-                    </div>
-
-                    <div class="contact-method" style="align-items:center;gap:1rem;">
-                        <div class="icon" aria-hidden="true">
-                            <!-- Instagram simple gray icon -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram-icon lucide-instagram"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-                        </div>
-                        <div class="meta">
-                            <div class="title">Instagram</div>
-                            <div class="value">
-                                <a href="https://instagram.com/ferroo.ph" target="_blank" rel="noopener noreferrer" aria-label="Profilo Instagram">
-                                    <img src="img/logoPNG.png" alt="Logo Instagram FerroPh" style="width: 80px; height:31.5px; vertical-align:middle; border-radius:50%;">
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </aside>
+        <div class="form-group">
+          <label class="form-label">Il tuo veicolo</label>
+          <input class="form-input" type="text" name="veicolo" placeholder="es. BMW M4">
         </div>
-    </section>
-    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Valutazione</label>
+        <div class="star-selector" id="starSelector">
+          <div class="star-pick active" data-v="1"></div>
+          <div class="star-pick active" data-v="2"></div>
+          <div class="star-pick active" data-v="3"></div>
+          <div class="star-pick active" data-v="4"></div>
+          <div class="star-pick active" data-v="5"></div>
+        </div>
+        <input type="hidden" name="rating" id="ratingInput" value="5">
+      </div>
+      <div class="form-group">
+        <label class="form-label">La tua recensione</label>
+        <textarea class="form-input" name="testo" placeholder="Racconta la tua esperienza..." required></textarea>
+      </div>
+      <button type="submit" class="form-submit" style="max-width:220px;">Invia recensione</button>
+    </form>
+  </div>
+</section>
+ 
+<!-- PREZZI -->
+<section style="background: var(--bg);" id="prezzi">
+  <div class="section-eyebrow">Prezzi</div>
+  <h2 class="section-title">Pacchetti</h2>
+  <div class="pricing-grid">
+    <!-- MODIFICA: aggiusta prezzi e caratteristiche -->
+    <div class="pricing-card">
+      <div class="pricing-label">Essential</div>
+      <div class="pricing-price">€ 15</div>
+      <div class="pricing-from">sessione base</div>
+      <div class="pricing-divider"></div>
+      <div class="pricing-feature"><div class="feat-dot"></div>1 ora di shooting</div>
+      <div class="pricing-feature"><div class="feat-dot"></div>10 foto elaborate</div>
+      <div class="pricing-feature"><div class="feat-dot"></div>Consegna entro 7 giorni</div>
+      <div class="pricing-feature"><div class="feat-dot"></div>File alta risoluzione</div>
+      <button class="pricing-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Prenota</button>
+    </div>
+    <div class="pricing-card featured">
+      <div class="pricing-badge">Più scelto</div>
+      <div class="pricing-label">Premium</div>
+      <div class="pricing-price">€ 35</div>
+      <div class="pricing-from">sessione completa</div>
+      <div class="pricing-divider"></div>
+      <div class="pricing-feature"><div class="feat-dot"></div>2 ore di shooting</div>
+      <div class="pricing-feature"><div class="feat-dot"></div>25 foto elaborate</div>
+      <div class="pricing-feature"><div class="feat-dot"></div>2 location</div>
+      <div class="pricing-feature"><div class="feat-dot"></div>Consegna entro 5 giorni</div>
+      <div class="pricing-feature"><div class="feat-dot"></div>File senza watermark</div>
+      <button class="pricing-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Prenota</button>
+    </div>
+    <div class="pricing-card">
+      <div class="pricing-label">Full Day</div>
+      <div class="pricing-price">€ 100</div>
+      <div class="pricing-from">giornata intera</div>
+      <div class="pricing-divider"></div>
+      <div class="pricing-feature"><div class="feat-dot"></div>Giornata intera</div>
+      <div class="pricing-feature"><div class="feat-dot"></div>50+ foto elaborate</div>
+      <div class="pricing-feature"><div class="feat-dot"></div>Location illimitate</div>
+      <div class="pricing-feature"><div class="feat-dot"></div>Priorità consegna</div>
+      <button class="pricing-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Prenota</button>
+    </div>
+  </div>
+</section>
+ 
+<!-- CONTATTI -->
+<section style="background: var(--bg2);" id="contact">
+  <div class="section-eyebrow">Contatti</div>
+  <div class="contact-grid">
+    <div>
+      <h2 class="contact-title">Trasformiamo la tua auto in un capolavoro</h2>
+      <p class="contact-sub">Scrivimi per discutere il progetto, scegliere la location giusta, o semplicemente per sapere di più.</p>
+      <div class="contact-info-row">
+        <span class="contact-info-label">Email</span>
+        <span class="contact-info-val"><a href="mailto:info@ferroph.art">info@ferroph.art</a></span>
+      </div>
+      <div class="contact-info-row">
+        <span class="contact-info-label">WhatsApp</span>
+        <span class="contact-info-val"><a href="https://wa.me/393920401948" target="_blank">+39 392 040 1948</a></span>
+      </div>
+      <div class="contact-info-row">
+        <span class="contact-info-label">Instagram</span>
+        <span class="contact-info-val"><a href="https://instagram.com/ferroo.ph" target="_blank">@ferroo.ph</a></span>
+      </div>
+      <div class="contact-info-row">
+        <span class="contact-info-label">Zona</span>
+        <span class="contact-info-val">Taranto · Puglia · Sud Italia</span>
+      </div>
+    </div>
+    <div>
+      <form action="https://formspree.io/f/xjgaplkz" method="POST">
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label">Nome</label>
+            <input class="form-input" type="text" name="nome" placeholder="Mario" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Cognome</label>
+            <input class="form-input" type="text" name="cognome" placeholder="Rossi">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-input" type="email" name="email" placeholder="mario@email.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Il tuo veicolo</label>
+          <input class="form-input" type="text" name="veicolo" placeholder="es. BMW M4, Ducati 916...">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Messaggio</label>
+          <textarea class="form-input" name="messaggio" placeholder="Raccontami del tuo veicolo e cosa hai in mente..." required></textarea>
+        </div>
+        <button type="submit" class="form-submit">Invia messaggio</button>
+      </form>
+    </div>
+  </div>
+</section>
+ 
+<!-- FOOTER -->
+<footer>
+  <a href="#home"><img src="img/logoPNG.png" alt="ferroo.ph" style="height:22px;opacity:0.4;"></a>
+  <span class="footer-copy">© 2025 Ferroo.ph · Car Photography · Tutti i diritti riservati</span>
+</footer>
+ 
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  /* NAV MOBILE */
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+ 
+  /* PROTEZIONE FOTO */
+  document.addEventListener('contextmenu', e => { if (e.target.tagName === 'IMG') e.preventDefault(); });
+  document.addEventListener('dragstart', e => { if (e.target.tagName === 'IMG') e.preventDefault(); });
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && ['s','S','u','U'].includes(e.key)) e.preventDefault();
+  });
+ 
+  /* FILTRI PORTFOLIO */
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('#portfolioGrid .masonry-item').forEach(item => {
+        item.classList.toggle('hidden', filter !== 'all' && !item.dataset.cat.split(' ').includes(filter));
+      });
+    });
+  });
+ 
+  /* LIGHTBOX */
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lbImg');
+  const lbLabel = document.getElementById('lbLabel');
+  let visibleItems = [], currentIdx = 0;
+ 
+  function getVisible() {
+    return [...document.querySelectorAll('#portfolioGrid .masonry-item:not(.hidden)')];
+  }
+  function openLightbox(idx) {
+    visibleItems = getVisible();
+    currentIdx = idx;
+    const item = visibleItems[currentIdx];
+    lbImg.src = item.querySelector('img').src;
+    lbImg.alt = item.dataset.label;
+    lbLabel.textContent = item.dataset.label;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    lb.classList.remove('open');
+    lbImg.src = '';
+    document.body.style.overflow = '';
+  }
+  function navigate(dir) {
+    visibleItems = getVisible();
+    currentIdx = (currentIdx + dir + visibleItems.length) % visibleItems.length;
+    const item = visibleItems[currentIdx];
+    lbImg.src = item.querySelector('img').src;
+    lbImg.alt = item.dataset.label;
+    lbLabel.textContent = item.dataset.label;
+  }
+ 
+  document.querySelectorAll('.masonry-item').forEach(item => {
+    item.addEventListener('click', () => {
+      visibleItems = getVisible();
+      const idx = visibleItems.indexOf(item);
+      if (idx !== -1) openLightbox(idx);
+    });
+  });
+  document.getElementById('lbClose').addEventListener('click', closeLightbox);
+  document.getElementById('lbPrev').addEventListener('click', () => navigate(-1));
+  document.getElementById('lbNext').addEventListener('click', () => navigate(1));
+  lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') navigate(-1);
+    if (e.key === 'ArrowRight') navigate(1);
+  });
+ 
+  /* STELLE RECENSIONE */
+  let selectedStars = 5;
+  document.querySelectorAll('.star-pick').forEach(star => {
+    star.addEventListener('mouseover', () => {
+      const v = +star.dataset.v;
+      document.querySelectorAll('.star-pick').forEach(s => s.classList.toggle('active', +s.dataset.v <= v));
+    });
+    star.addEventListener('mouseout', () => {
+      document.querySelectorAll('.star-pick').forEach(s => s.classList.toggle('active', +s.dataset.v <= selectedStars));
+    });
+    star.addEventListener('click', () => {
+      selectedStars = +star.dataset.v;
+      document.getElementById('ratingInput').value = selectedStars;
+      document.querySelectorAll('.star-pick').forEach(s => s.classList.toggle('active', +s.dataset.v <= selectedStars));
+    });
+  });
+ 
+  /* FORM RECENSIONE */
+  function handleReview(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type=submit]');
+    const data = new FormData(e.target);
+    const stars = '★'.repeat(+data.get('rating')) + '☆'.repeat(5 - +data.get('rating'));
+    const subject = encodeURIComponent('Recensione da ' + data.get('nome') + ' — ferroph.art');
+    const body = encodeURIComponent(
+      'Nome: ' + data.get('nome') + '\n' +
+      'Veicolo: ' + data.get('veicolo') + '\n' +
+      'Valutazione: ' + stars + ' (' + data.get('rating') + '/5)\n\n' +
+      data.get('testo')
+    );
+    window.location.href = 'mailto:info@ferroph.art?subject=' + subject + '&body=' + body;
+    btn.textContent = 'Recensione inviata!';
+    setTimeout(() => { btn.textContent = 'Invia recensione'; e.target.reset(); selectedStars = 5; document.querySelectorAll('.star-pick').forEach(s => s.classList.add('active')); }, 3000);
+  }
 
-    <footer>
-        <p>&copy; 2025 Ferro.Ph - Car Photography. Tutti i diritti riservati.</p>
-    </footer>
-
-    <script src="main.js?v=3.3"></script>
+  /* FORM CONTATTI */
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    const data = new FormData(e.target);
+    const subject = encodeURIComponent('Richiesta da ferroph.art - ' + data.get('nome'));
+    const body = encodeURIComponent(
+      'Nome: ' + data.get('nome') + ' ' + data.get('cognome') + '\n' +
+      'Email: ' + data.get('email') + '\n' +
+      'Veicolo: ' + data.get('veicolo') + '\n\n' +
+      data.get('messaggio')
+    );
+    window.location.href = 'mailto:info@ferroph.art?subject=' + subject + '&body=' + body;
+    btn.textContent = 'Messaggio inviato!';
+    setTimeout(() => { btn.textContent = 'Invia messaggio'; e.target.reset(); }, 3000);
+  }
+</script>
 </body>
 </html>

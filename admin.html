@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Ferroo.ph</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0a0a0a; --bg2: #0f0f0f; --bg3: #141414; --bg4: #1a1a1a;
+      --white: #f5f5f0; --gray: #777; --gray2: #444;
+      --blue: #1a7fd4; --blue-light: #2d9cec;
+      --red: #c0392b; --red-light: #e74c3c;
+      --green: #1a9d5a; --green-light: #27ae60;
+      --border: rgba(255,255,255,0.06);
+    }
+    body { background: var(--bg); color: var(--white); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+
+    /* LOGIN */
+    #loginScreen {
+      position: fixed; inset: 0; background: var(--bg);
+      display: flex; align-items: center; justify-content: center; z-index: 999;
+    }
+    .login-box {
+      background: var(--bg3); border: 0.5px solid var(--border);
+      border-top: 2px solid var(--blue); padding: 48px 40px; width: 360px;
+    }
+    .login-logo { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 0.06em; color: var(--white); margin-bottom: 8px; }
+    .login-sub { font-size: 13px; color: var(--gray); margin-bottom: 32px; }
+    .login-input {
+      width: 100%; background: var(--bg4); border: 0.5px solid var(--border);
+      color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 14px;
+      padding: 12px 16px; outline: none; margin-bottom: 12px; transition: border-color 0.2s;
+    }
+    .login-input:focus { border-color: var(--blue); }
+    .login-btn {
+      width: 100%; padding: 13px; background: var(--blue); color: #fff;
+      border: none; cursor: pointer; font-family: 'DM Sans', sans-serif;
+      font-size: 13px; font-weight: 500; letter-spacing: 0.08em; transition: background 0.2s;
+    }
+    .login-btn:hover { background: var(--blue-light); }
+    .login-error { font-size: 12px; color: var(--red-light); margin-top: 10px; display: none; }
+
+    /* LAYOUT */
+    #adminApp { display: none; }
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px; height: 60px; background: var(--bg2);
+      border-bottom: 0.5px solid var(--border); position: sticky; top: 0; z-index: 10;
+    }
+    .header-logo { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.06em; }
+    .header-logo span { color: var(--blue); }
+    .header-right { display: flex; align-items: center; gap: 16px; }
+    .header-link { font-size: 12px; color: var(--gray); text-decoration: none; transition: color 0.2s; }
+    .header-link:hover { color: var(--white); }
+    .logout-btn {
+      font-size: 12px; color: var(--gray); background: none; border: 0.5px solid var(--border);
+      padding: 6px 14px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s;
+    }
+    .logout-btn:hover { color: var(--white); border-color: var(--gray2); }
+
+    .tabs {
+      display: flex; gap: 2px; padding: 24px 32px 0;
+      border-bottom: 0.5px solid var(--border);
+    }
+    .tab-btn {
+      font-size: 13px; letter-spacing: 0.06em; padding: 10px 24px;
+      background: none; border: none; border-bottom: 2px solid transparent;
+      color: var(--gray); cursor: pointer; font-family: 'DM Sans', sans-serif;
+      transition: all 0.2s; margin-bottom: -0.5px;
+    }
+    .tab-btn.active { color: var(--white); border-bottom-color: var(--blue); }
+    .tab-btn:hover:not(.active) { color: var(--white); }
+
+    .tab-content { display: none; padding: 32px; }
+    .tab-content.active { display: block; }
+
+    /* SECTION TITLE */
+    .sec-title { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--white); margin-bottom: 6px; }
+    .sec-sub { font-size: 13px; color: var(--gray); margin-bottom: 28px; }
+
+    /* CARDS */
+    .card {
+      background: var(--bg3); border: 0.5px solid var(--border);
+      padding: 24px; margin-bottom: 16px;
+    }
+    .card-title { font-size: 14px; font-weight: 500; color: var(--white); margin-bottom: 4px; }
+    .card-sub { font-size: 12px; color: var(--gray); margin-bottom: 16px; }
+
+    /* FORM ELEMENTS */
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    .form-group { margin-bottom: 12px; }
+    .form-label { font-size: 11px; letter-spacing: 0.1em; color: rgba(255,255,255,0.35); text-transform: uppercase; display: block; margin-bottom: 6px; }
+    .form-input {
+      width: 100%; background: var(--bg4); border: 0.5px solid var(--border);
+      color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 13px;
+      padding: 10px 14px; outline: none; transition: border-color 0.2s;
+    }
+    .form-input:focus { border-color: var(--blue); }
+    .form-input::placeholder { color: var(--gray2); }
+    select.form-input { cursor: pointer; }
+
+    /* BUTTONS */
+    .btn {
+      font-size: 12px; letter-spacing: 0.06em; padding: 10px 20px;
+      border: none; cursor: pointer; font-family: 'DM Sans', sans-serif;
+      font-weight: 500; transition: all 0.2s; display: inline-flex;
+      align-items: center; gap: 6px;
+    }
+    .btn-blue { background: var(--blue); color: #fff; }
+    .btn-blue:hover { background: var(--blue-light); }
+    .btn-red { background: var(--red); color: #fff; }
+    .btn-red:hover { background: var(--red-light); }
+    .btn-ghost { background: none; color: var(--gray); border: 0.5px solid var(--border); }
+    .btn-ghost:hover { color: var(--white); border-color: var(--gray2); }
+    .btn-green { background: var(--green); color: #fff; }
+    .btn-green:hover { background: var(--green-light); }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* UPLOAD ZONE */
+    .upload-zone {
+      border: 1.5px dashed var(--gray2); padding: 40px 24px;
+      text-align: center; cursor: pointer; transition: all 0.2s;
+      margin-bottom: 16px; background: var(--bg4);
+    }
+    .upload-zone:hover, .upload-zone.drag-over { border-color: var(--blue); background: rgba(26,127,212,0.05); }
+    .upload-zone-icon { font-size: 32px; margin-bottom: 12px; color: var(--gray); }
+    .upload-zone-text { font-size: 14px; color: var(--gray); margin-bottom: 4px; }
+    .upload-zone-sub { font-size: 12px; color: var(--gray2); }
+    #fileInput, #portfolioFileInput { display: none; }
+
+    /* PROGRESS */
+    .upload-progress { margin-top: 16px; }
+    .progress-item { margin-bottom: 10px; }
+    .progress-name { font-size: 12px; color: var(--gray); margin-bottom: 4px; }
+    .progress-bar-wrap { background: var(--bg4); height: 4px; border-radius: 2px; overflow: hidden; }
+    .progress-bar { height: 100%; background: var(--blue); transition: width 0.3s; width: 0%; }
+    .progress-done { color: var(--green-light); }
+
+    /* GALLERIES LIST */
+    .gallery-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+    .gallery-card {
+      background: var(--bg3); border: 0.5px solid var(--border);
+      overflow: hidden; position: relative; transition: border-color 0.2s;
+    }
+    .gallery-card:hover { border-color: var(--blue); }
+    .gallery-card-cover {
+      width: 100%; aspect-ratio: 16/9; background-size: cover;
+      background-position: center; background-color: var(--bg4);
+    }
+    .gallery-card-body { padding: 14px 16px; }
+    .gallery-card-nome { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--white); margin-bottom: 2px; }
+    .gallery-card-meta { font-size: 11px; color: var(--blue); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+    .gallery-card-count { font-size: 12px; color: var(--gray); margin-bottom: 12px; }
+    .gallery-card-actions { display: flex; gap: 8px; }
+
+    /* PHOTO GRID */
+    .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 6px; margin-top: 16px; }
+    .photo-thumb { position: relative; aspect-ratio: 1; overflow: hidden; background: var(--bg4); }
+    .photo-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .photo-thumb-del {
+      position: absolute; top: 6px; right: 6px;
+      background: rgba(192,57,43,0.9); border: none; color: #fff;
+      width: 24px; height: 24px; border-radius: 50%; cursor: pointer;
+      font-size: 14px; display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .photo-thumb:hover .photo-thumb-del { opacity: 1; }
+
+    /* PORTFOLIO ITEMS */
+    .portfolio-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-top: 16px; }
+    .portfolio-item-card { background: var(--bg3); border: 0.5px solid var(--border); overflow: hidden; }
+    .portfolio-item-img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
+    .portfolio-item-body { padding: 10px 12px; }
+    .portfolio-item-label { font-size: 12px; color: var(--white); margin-bottom: 4px; }
+    .portfolio-item-cat { font-size: 11px; color: var(--blue); margin-bottom: 8px; }
+    .portfolio-item-del { width: 100%; padding: 7px; background: none; border: 0.5px solid var(--red); color: var(--red-light); cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 11px; transition: all 0.2s; }
+    .portfolio-item-del:hover { background: var(--red); color: #fff; }
+
+    /* TOAST */
+    .toast {
+      position: fixed; bottom: 28px; right: 28px; z-index: 9999;
+      background: var(--bg3); border: 0.5px solid var(--border);
+      border-left: 3px solid var(--blue); padding: 14px 20px;
+      font-size: 13px; color: var(--white); opacity: 0;
+      transform: translateY(10px); transition: all 0.3s; pointer-events: none;
+      max-width: 320px;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast.error { border-left-color: var(--red-light); }
+    .toast.success { border-left-color: var(--green-light); }
+
+    /* MODAL */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 500;
+      background: rgba(0,0,0,0.8); align-items: center; justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--bg3); border: 0.5px solid var(--border);
+      border-top: 2px solid var(--blue); padding: 32px; width: 500px; max-width: 90vw;
+      max-height: 90vh; overflow-y: auto;
+    }
+    .modal-title { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--white); margin-bottom: 20px; }
+    .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
+
+    /* STATO VUOTO */
+    .empty-state { text-align: center; padding: 60px 20px; color: var(--gray); }
+    .empty-state-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.3; }
+    .empty-state-text { font-size: 14px; }
+
+    /* SPINNER */
+    .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.2); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* DETAIL VIEW */
+    .detail-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+    .detail-cover { width: 120px; height: 68px; object-fit: cover; border: 0.5px solid var(--border); }
+    .detail-info-nome { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--white); }
+    .detail-info-meta { font-size: 12px; color: var(--blue); }
+
+    @media (max-width: 600px) {
+      .form-row { grid-template-columns: 1fr; }
+      header { padding: 0 16px; }
+      .tabs { padding: 16px 16px 0; overflow-x: auto; }
+      .tab-content { padding: 20px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">ferroo<span style="color:#1a7fd4">.ph</span></div>
+    <div class="login-sub">Pannello di amministrazione</div>
+    <input class="login-input" type="password" id="loginPwd" placeholder="Password" autocomplete="current-password">
+    <button class="login-btn" onclick="doLogin()">Accedi</button>
+    <div class="login-error" id="loginError">Password errata</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="adminApp">
+  <header>
+    <div class="header-logo">ferroo<span>.ph</span> <span style="font-size:13px;color:var(--gray);font-family:'DM Sans',sans-serif;font-weight:400;letter-spacing:0">admin</span></div>
+    <div class="header-right">
+      <a class="header-link" href="/" target="_blank">Vai al sito →</a>
+      <button class="logout-btn" onclick="doLogout()">Esci</button>
+    </div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('galleries')">Galleries</button>
+    <button class="tab-btn" onclick="switchTab('portfolio')">Portfolio</button>
+  </div>
+
+  <!-- TAB GALLERIES -->
+  <div class="tab-content active" id="tab-galleries">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:8px">
+      <div>
+        <div class="sec-title">Galleries</div>
+        <div class="sec-sub">Gestisci gli eventi e le sessioni fotografiche</div>
+      </div>
+      <button class="btn btn-blue" onclick="openNewGalleryModal()">+ Nuova gallery</button>
+    </div>
+    <div class="gallery-list" id="galleryList">
+      <div class="empty-state"><div class="empty-state-icon">📁</div><div class="empty-state-text">Caricamento...</div></div>
+    </div>
+  </div>
+
+  <!-- TAB PORTFOLIO -->
+  <div class="tab-content" id="tab-portfolio">
+    <div class="sec-title">Portfolio</div>
+    <div class="sec-sub">Gestisci le foto nel portfolio principale</div>
+
+    <div class="card">
+      <div class="card-title">Aggiungi foto al portfolio</div>
+      <div class="card-sub">Le foto verranno caricate su Cloudinary e aggiunte al portfolio</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Nome veicolo</label>
+          <input class="form-input" type="text" id="pfLabel" placeholder="es. Ferrari Testarossa">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Categoria</label>
+          <select class="form-input" id="pfCat">
+            <option value="auto">Auto</option>
+            <option value="moto">Moto</option>
+            <option value="vintage">Vintage</option>
+            <option value="auto vintage">Auto + Vintage</option>
+            <option value="moto vintage">Moto + Vintage</option>
+          </select>
+        </div>
+      </div>
+      <div class="upload-zone" id="pfUploadZone" onclick="document.getElementById('portfolioFileInput').click()">
+        <div class="upload-zone-icon">🖼️</div>
+        <div class="upload-zone-text">Clicca o trascina le foto qui</div>
+        <div class="upload-zone-sub">JPG, PNG, WebP · Max 10MB per foto</div>
+      </div>
+      <input type="file" id="portfolioFileInput" accept="image/*" multiple>
+      <div class="upload-progress" id="pfProgress"></div>
+    </div>
+
+    <div class="sec-title" style="font-size:20px;margin-top:8px;margin-bottom:4px">Foto nel portfolio</div>
+    <div class="portfolio-list" id="portfolioList">
+      <div class="empty-state"><div class="empty-state-icon">🖼️</div><div class="empty-state-text">Caricamento...</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL NUOVA GALLERY -->
+<div class="modal-overlay" id="newGalleryModal">
+  <div class="modal">
+    <div class="modal-title">Nuova Gallery</div>
+    <div class="form-group">
+      <label class="form-label">Nome evento</label>
+      <input class="form-input" type="text" id="ngNome" placeholder="es. Redline - AperiDrive 2025">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Data</label>
+        <input class="form-input" type="text" id="ngData" placeholder="es. Aprile 2025">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Luogo</label>
+        <input class="form-input" type="text" id="ngLuogo" placeholder="es. Taranto">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">ID univoco (no spazi)</label>
+      <input class="form-input" type="text" id="ngId" placeholder="es. redline-aprile-2025">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('newGalleryModal')">Annulla</button>
+      <button class="btn btn-blue" onclick="createGallery()">Crea gallery</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DETTAGLIO GALLERY -->
+<div class="modal-overlay" id="galleryDetailModal">
+  <div class="modal" style="width:700px">
+    <div class="detail-header">
+      <img class="detail-cover" id="detailCover" src="" alt="">
+      <div>
+        <div class="detail-info-nome" id="detailNome"></div>
+        <div class="detail-info-meta" id="detailMeta"></div>
+      </div>
+    </div>
+    <div class="card-title">Carica foto</div>
+    <div class="upload-zone" id="detailUploadZone" onclick="document.getElementById('galleryFileInput').click()" style="padding:24px;margin-top:10px">
+      <div class="upload-zone-text" style="font-size:13px">Clicca o trascina per aggiungere foto</div>
+    </div>
+    <input type="file" id="galleryFileInput" accept="image/*" multiple>
+    <div class="upload-progress" id="detailProgress"></div>
+    <div class="card-title" style="margin-top:20px;margin-bottom:10px">Foto nella gallery (<span id="detailCount">0</span>)</div>
+    <div class="photo-grid" id="detailPhotoGrid"></div>
+    <div class="modal-actions">
+      <button class="btn btn-red" onclick="deleteGallery()">Elimina gallery</button>
+      <button class="btn btn-ghost" onclick="closeModal('galleryDetailModal')">Chiudi</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+const CLOUD_NAME = 'djbb8ffbu';
+const UPLOAD_PRESET = 'ferroph_admin';
+const PWD_HASH = btoa('Matteo@0609');
+/** Path del proxy (stesso dominio del deploy Vercel). Locale: `npx vercel dev`. */
+const CLOUDINARY_PROXY = '/api/cloudinary-proxy';
+/**
+ * Opzionale: se su Vercel hai impostato ADMIN_API_KEY, incolla qui lo stesso valore.
+ * Ridotte le chiamate abusive all’endpoint (il valore resta visibile nel sorgente).
+ */
+const ADMIN_API_KEY = '';
+
+let currentGallery = null;
+
+/* ── AUTH ── */
+function doLogin() {
+  const val = document.getElementById('loginPwd').value;
+  if (btoa(val) === PWD_HASH) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminApp').style.display = 'block';
+    loadGalleries();
+    loadPortfolio();
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+  }
+}
+document.getElementById('loginPwd').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+function doLogout() {
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('adminApp').style.display = 'none';
+  document.getElementById('loginPwd').value = '';
+}
+
+/* ── TABS ── */
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', ['galleries','portfolio'][i] === tab));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+}
+
+/* ── TOAST ── */
+function showToast(msg, type = 'info') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  setTimeout(() => t.className = 'toast', 3000);
+}
+
+/* ── MODAL ── */
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
+});
+
+/* ── CLOUDINARY API (search/delete via backend; upload unsigned diretto) ── */
+function adminFetchHeaders() {
+  const h = { 'Content-Type': 'application/json' };
+  if (ADMIN_API_KEY) h['x-admin-api-key'] = ADMIN_API_KEY;
+  return h;
+}
+
+async function cloudinarySearch(expression, maxResults = 100) {
+  const url = `${CLOUDINARY_PROXY}?action=search`;
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: adminFetchHeaders(),
+    body: JSON.stringify({ expression, max_results: maxResults, sort_by: [{ created_at: 'asc' }] })
+  });
+  const data = await res.json();
+  if (!res.ok || data.error) {
+    const msg = (data.error && (data.error.message || data.error)) || res.statusText || 'API error';
+    throw new Error(typeof msg === 'string' ? msg : 'API error');
+  }
+  return data;
+}
+
+async function uploadToCloudinary(file, folder, onProgress) {
+  return new Promise((resolve, reject) => {
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('upload_preset', UPLOAD_PRESET);
+    fd.append('folder', folder);
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`);
+    xhr.upload.onprogress = e => { if (e.lengthComputable) onProgress(Math.round(e.loaded / e.total * 100)); };
+    xhr.onload = () => { if (xhr.status === 200) resolve(JSON.parse(xhr.responseText)); else reject(new Error('Upload failed')); };
+    xhr.onerror = () => reject(new Error('Network error'));
+    xhr.send(fd);
+  });
+}
+
+async function deleteFromCloudinary(publicId) {
+  const res = await fetch(`${CLOUDINARY_PROXY}?action=delete`, {
+    method: 'POST',
+    headers: adminFetchHeaders(),
+    body: JSON.stringify({ public_id: publicId, invalidate: true })
+  });
+  const data = await res.json();
+  if (!res.ok || data.error) {
+    const msg = (data.error && (data.error.message || data.error)) || res.statusText;
+    throw new Error(typeof msg === 'string' ? msg : 'Eliminazione fallita');
+  }
+  return data;
+}
+
+/* ── METADATA STORAGE (Cloudinary tags as DB) ──
+   Ogni gallery è salvata come un'immagine placeholder con tag "gallery_meta"
+   Il tag contiene i metadati in formato JSON nel context */
+
+function imgUrl(publicId, w = 400) {
+  return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_${w},c_fill,f_auto,q_auto/${publicId}`;
+}
+
+/* ── GALLERIES ── */
+async function loadGalleries() {
+  const list = document.getElementById('galleryList');
+  list.innerHTML = '<div class="empty-state"><div class="spinner"></div></div>';
+  try {
+    const data = await cloudinarySearch('folder:galleries/*', 500);
+    const resources = data.resources || [];
+
+    // Raggruppa per cartella (gallery)
+    const galleries = {};
+    resources.forEach(r => {
+      const parts = r.public_id.split('/');
+      if (parts.length < 2) return;
+      const galleryId = parts[1];
+      if (!galleries[galleryId]) galleries[galleryId] = { id: galleryId, photos: [] };
+      galleries[galleryId].photos.push(r);
+    });
+
+    // Leggi metadati da localStorage (nome, data, luogo, copertina)
+    const savedMeta = JSON.parse(localStorage.getItem('ferroph_galleries') || '{}');
+
+    list.innerHTML = '';
+    if (Object.keys(galleries).length === 0) {
+      list.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📁</div><div class="empty-state-text">Nessuna gallery ancora. Creane una!</div></div>';
+      return;
+    }
+
+    Object.values(galleries).forEach(g => {
+      const meta = savedMeta[g.id] || { nome: g.id, data: '', luogo: '' };
+      const cover = g.photos.find(p => p.public_id.includes('copertina')) || g.photos[0];
+      const coverUrl = cover ? imgUrl(cover.public_id) : '';
+      g.meta = meta;
+      g.cover = coverUrl;
+
+      const card = document.createElement('div');
+      card.className = 'gallery-card';
+      card.innerHTML = `
+        <div class="gallery-card-cover" style="background-image:url('${coverUrl}')"></div>
+        <div class="gallery-card-body">
+          <div class="gallery-card-nome">${meta.nome || g.id}</div>
+          <div class="gallery-card-meta">${meta.data || ''}${meta.luogo ? ' · ' + meta.luogo : ''}</div>
+          <div class="gallery-card-count">${g.photos.length} foto</div>
+          <div class="gallery-card-actions">
+            <button class="btn btn-ghost" style="flex:1" onclick='openGalleryDetail(${JSON.stringify(g)})'>Gestisci</button>
+          </div>
+        </div>
+      `;
+      list.appendChild(card);
+    });
+  } catch(e) {
+    const hint = (e && e.message && String(e.message).includes('Failed to fetch'))
+      ? ' Apri il sito dal dominio di deploy ed esegui “npx vercel dev” in locale, non da file:// .'
+      : '';
+    list.innerHTML = '<div class="empty-state"><div class="empty-state-text">Errore caricamento.' + hint + ' ' + (e && e.message ? e.message : '') + '</div></div>';
+    console.error(e);
+  }
+}
+
+function openNewGalleryModal() {
+  document.getElementById('ngNome').value = '';
+  document.getElementById('ngData').value = '';
+  document.getElementById('ngLuogo').value = '';
+  document.getElementById('ngId').value = '';
+  openModal('newGalleryModal');
+}
+
+// Auto-genera ID dal nome
+document.getElementById('ngNome').addEventListener('input', function() {
+  const id = this.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  document.getElementById('ngId').value = id;
+});
+
+function createGallery() {
+  const nome = document.getElementById('ngNome').value.trim();
+  const data = document.getElementById('ngData').value.trim();
+  const luogo = document.getElementById('ngLuogo').value.trim();
+  const id = document.getElementById('ngId').value.trim();
+  if (!nome || !id) { showToast('Nome e ID sono obbligatori', 'error'); return; }
+
+  const saved = JSON.parse(localStorage.getItem('ferroph_galleries') || '{}');
+  saved[id] = { nome, data, luogo };
+  localStorage.setItem('ferroph_galleries', JSON.stringify(saved));
+
+  closeModal('newGalleryModal');
+  showToast('Gallery "' + nome + '" creata! Ora carica le foto.', 'success');
+
+  // Apri subito il dettaglio della nuova gallery
+  openGalleryDetail({ id, meta: { nome, data, luogo }, photos: [], cover: '' });
+  loadGalleries();
+}
+
+function openGalleryDetail(gallery) {
+  currentGallery = gallery;
+  document.getElementById('detailNome').textContent = gallery.meta?.nome || gallery.id;
+  document.getElementById('detailMeta').textContent = (gallery.meta?.data || '') + (gallery.meta?.luogo ? ' · ' + gallery.meta.luogo : '');
+  document.getElementById('detailCover').src = gallery.cover || '';
+  document.getElementById('detailCover').style.display = gallery.cover ? 'block' : 'none';
+  renderDetailPhotos(gallery.photos || []);
+  openModal('galleryDetailModal');
+}
+
+function renderDetailPhotos(photos) {
+  const grid = document.getElementById('detailPhotoGrid');
+  document.getElementById('detailCount').textContent = photos.length;
+  grid.innerHTML = '';
+  photos.forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'photo-thumb';
+    div.innerHTML = `
+      <img src="${imgUrl(p.public_id, 200)}" loading="lazy">
+      <button class="photo-thumb-del" onclick="deleteGalleryPhoto('${p.public_id}')" title="Elimina">×</button>
+    `;
+    grid.appendChild(div);
+  });
+}
+
+async function deleteGalleryPhoto(publicId) {
+  if (!confirm('Eliminare questa foto?')) return;
+  try {
+    await deleteFromCloudinary(publicId);
+    showToast('Foto eliminata', 'success');
+    // Ricarica il dettaglio
+    await refreshGalleryDetail();
+    loadGalleries();
+  } catch(e) {
+    showToast('Errore eliminazione', 'error');
+  }
+}
+
+async function refreshGalleryDetail() {
+  if (!currentGallery) return;
+  try {
+    const data = await cloudinarySearch(`folder:galleries/${currentGallery.id}`, 200);
+    currentGallery.photos = data.resources || [];
+    renderDetailPhotos(currentGallery.photos);
+  } catch(e) {}
+}
+
+async function deleteGallery() {
+  if (!currentGallery) return;
+  if (!confirm(`Eliminare tutta la gallery "${currentGallery.meta?.nome}"? Le foto verranno eliminate da Cloudinary.`)) return;
+
+  const photos = currentGallery.photos || [];
+  for (const p of photos) {
+    try { await deleteFromCloudinary(p.public_id); } catch(e) {}
+  }
+
+  const saved = JSON.parse(localStorage.getItem('ferroph_galleries') || '{}');
+  delete saved[currentGallery.id];
+  localStorage.setItem('ferroph_galleries', JSON.stringify(saved));
+
+  closeModal('galleryDetailModal');
+  showToast('Gallery eliminata', 'success');
+  loadGalleries();
+}
+
+/* ── UPLOAD GALLERY FOTO ── */
+function setupGalleryUpload() {
+  const input = document.getElementById('galleryFileInput');
+  const zone = document.getElementById('detailUploadZone');
+
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+  zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('drag-over'); handleGalleryFiles(e.dataTransfer.files); });
+  input.addEventListener('change', () => handleGalleryFiles(input.files));
+}
+
+async function handleGalleryFiles(files) {
+  if (!currentGallery) return;
+  if (!files.length) return;
+  const progress = document.getElementById('detailProgress');
+  progress.innerHTML = '';
+
+  for (const file of files) {
+    const item = document.createElement('div');
+    item.className = 'progress-item';
+    item.innerHTML = `<div class="progress-name">${file.name}</div><div class="progress-bar-wrap"><div class="progress-bar" id="pb_${file.name.replace(/\W/g,'_')}"></div></div>`;
+    progress.appendChild(item);
+
+    try {
+      const folder = `galleries/${currentGallery.id}`;
+      await uploadToCloudinary(file, folder, pct => {
+        const bar = document.getElementById('pb_' + file.name.replace(/\W/g,'_'));
+        if (bar) bar.style.width = pct + '%';
+      });
+      item.querySelector('.progress-name').innerHTML += ' <span class="progress-done">✓</span>';
+    } catch(e) {
+      item.querySelector('.progress-name').textContent += ' ✗ Errore';
+    }
+  }
+
+  await refreshGalleryDetail();
+  loadGalleries();
+  showToast('Upload completato!', 'success');
+}
+
+/* ── PORTFOLIO ── */
+async function loadPortfolio() {
+  const list = document.getElementById('portfolioList');
+  list.innerHTML = '<div class="empty-state"><div class="spinner"></div></div>';
+  try {
+    const data = await cloudinarySearch('folder:portfolio', 200);
+    const resources = data.resources || [];
+    const savedMeta = JSON.parse(localStorage.getItem('ferroph_portfolio') || '{}');
+
+    list.innerHTML = '';
+    if (!resources.length) {
+      list.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🖼️</div><div class="empty-state-text">Nessuna foto nel portfolio.</div></div>';
+      return;
+    }
+
+    resources.forEach(r => {
+      const meta = savedMeta[r.public_id] || { label: r.public_id.split('/').pop(), cat: 'auto' };
+      const div = document.createElement('div');
+      div.className = 'portfolio-item-card';
+      div.innerHTML = `
+        <img class="portfolio-item-img" src="${imgUrl(r.public_id, 300)}" loading="lazy">
+        <div class="portfolio-item-body">
+          <div class="portfolio-item-label">${meta.label}</div>
+          <div class="portfolio-item-cat">${meta.cat}</div>
+          <button class="portfolio-item-del" onclick="deletePortfolioPhoto('${r.public_id}')">Elimina</button>
+        </div>
+      `;
+      list.appendChild(div);
+    });
+  } catch(e) {
+    const hint = (e && e.message && String(e.message).includes('Failed to fetch'))
+      ? ' Usa il dominio di deploy o “npx vercel dev”.'
+      : '';
+    list.innerHTML = '<div class="empty-state"><div class="empty-state-text">Errore caricamento portfolio.' + hint + ' ' + (e && e.message ? e.message : '') + '</div></div>';
+  }
+}
+
+async function deletePortfolioPhoto(publicId) {
+  if (!confirm('Eliminare questa foto dal portfolio?')) return;
+  try {
+    await deleteFromCloudinary(publicId);
+    const saved = JSON.parse(localStorage.getItem('ferroph_portfolio') || '{}');
+    delete saved[publicId];
+    localStorage.setItem('ferroph_portfolio', JSON.stringify(saved));
+    showToast('Foto eliminata dal portfolio', 'success');
+    loadPortfolio();
+  } catch(e) {
+    showToast('Errore eliminazione', 'error');
+  }
+}
+
+/* ── UPLOAD PORTFOLIO ── */
+function setupPortfolioUpload() {
+  const input = document.getElementById('portfolioFileInput');
+  const zone = document.getElementById('pfUploadZone');
+
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+  zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('drag-over'); handlePortfolioFiles(e.dataTransfer.files); });
+  input.addEventListener('change', () => handlePortfolioFiles(input.files));
+}
+
+async function handlePortfolioFiles(files) {
+  if (!files.length) return;
+  const label = document.getElementById('pfLabel').value.trim();
+  const cat = document.getElementById('pfCat').value;
+  if (!label) { showToast('Inserisci il nome del veicolo prima di caricare', 'error'); return; }
+
+  const progress = document.getElementById('pfProgress');
+  progress.innerHTML = '';
+
+  for (const file of files) {
+    const item = document.createElement('div');
+    item.className = 'progress-item';
+    item.innerHTML = `<div class="progress-name">${file.name}</div><div class="progress-bar-wrap"><div class="progress-bar" id="ppb_${file.name.replace(/\W/g,'_')}"></div></div>`;
+    progress.appendChild(item);
+
+    try {
+      const result = await uploadToCloudinary(file, 'portfolio', pct => {
+        const bar = document.getElementById('ppb_' + file.name.replace(/\W/g,'_'));
+        if (bar) bar.style.width = pct + '%';
+      });
+      const saved = JSON.parse(localStorage.getItem('ferroph_portfolio') || '{}');
+      saved[result.public_id] = { label, cat };
+      localStorage.setItem('ferroph_portfolio', JSON.stringify(saved));
+      item.querySelector('.progress-name').innerHTML += ' <span class="progress-done">✓</span>';
+    } catch(e) {
+      item.querySelector('.progress-name').textContent += ' ✗ Errore';
+    }
+  }
+
+  loadPortfolio();
+  showToast('Foto aggiunte al portfolio!', 'success');
+}
+
+/* ── INIT ── */
+setupGalleryUpload();
+setupPortfolioUpload();
+</script>
+</body>
+</html>

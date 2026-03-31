@@ -1,0 +1,225 @@
+/* ============================================================
+   EVENTI OVERLAY
+   ============================================================ */
+
+.ev-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: #0a0a0a;
+  flex-direction: column;
+  overflow-y: auto;
+}
+.ev-overlay.open { display: flex; }
+
+.ev-overlay-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 64px;
+  background: rgba(10,10,10,0.55);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border-bottom: 0.5px solid rgba(255,255,255,0.07);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.ev-overlay-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.06em;
+  color: #f5f5f0;
+}
+
+.ev-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ev-back-btn {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #777;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  transition: color 0.2s;
+}
+.ev-back-btn:hover { color: #f5f5f0; }
+.ev-back-btn::before {
+  content: '‹';
+  font-size: 20px;
+  line-height: 1;
+}
+
+.ev-close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #777;
+  font-size: 28px;
+  font-family: sans-serif;
+  line-height: 1;
+  transition: color 0.2s;
+}
+.ev-close-btn:hover { color: #f5f5f0; }
+
+/* ============================================================
+   GRIGLIA CARD EVENTI
+   ============================================================ */
+
+.ev-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+  padding: 40px;
+}
+
+.ev-card {
+  background: #141414;
+  border: 0.5px solid rgba(255,255,255,0.06);
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color 0.25s;
+}
+.ev-card:hover { border-color: #1a7fd4; }
+
+.ev-card-img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background-size: cover;
+  background-position: center;
+  background-color: #1a1a1a;
+  transition: transform 0.5s ease;
+}
+.ev-card:hover .ev-card-img { transform: scale(1.03); }
+
+.ev-card-info {
+  padding: 16px 20px;
+}
+.ev-card-nome {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  color: #f5f5f0;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+.ev-card-meta {
+  font-size: 12px;
+  color: #1a7fd4;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   DETTAGLIO EVENTO — MASONRY
+   ============================================================ */
+
+#eventoDetail { display: none; padding: 40px; }
+
+.ev-masonry {
+  columns: 4;
+  column-gap: 4px;
+}
+.ev-masonry-item {
+  break-inside: avoid;
+  margin-bottom: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 0.5px solid rgba(255,255,255,0.06);
+  transition: border-color 0.25s;
+}
+.ev-masonry-item:hover { border-color: #1a7fd4; }
+.ev-masonry-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.5s ease;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.ev-masonry-item:hover img { transform: scale(1.03); }
+
+/* ============================================================
+   LIGHTBOX EVENTI
+   ============================================================ */
+
+.ev-lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(0,0,0,0.95);
+  align-items: center;
+  justify-content: center;
+}
+.ev-lightbox.open { display: flex; }
+
+.ev-lb-img {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.ev-lb-close {
+  position: fixed;
+  top: 24px;
+  right: 32px;
+  font-size: 32px;
+  color: #777;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: sans-serif;
+  transition: color 0.2s;
+  line-height: 1;
+}
+.ev-lb-close:hover { color: #f5f5f0; }
+
+.ev-lb-nav {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #777;
+  font-size: 40px;
+  padding: 16px;
+  transition: color 0.2s;
+  font-family: sans-serif;
+}
+.ev-lb-nav:hover { color: #f5f5f0; }
+.ev-lb-prev { left: 8px; }
+.ev-lb-next { right: 8px; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 900px) {
+  .ev-overlay-header { padding: 0 20px; }
+  .ev-grid { grid-template-columns: repeat(2, 1fr); padding: 20px; }
+  .ev-masonry { columns: 2; }
+  #eventoDetail { padding: 20px; }
+}
+
+@media (max-width: 540px) {
+  .ev-grid { grid-template-columns: 1fr; }
+  .ev-masonry { columns: 1; }
+}
